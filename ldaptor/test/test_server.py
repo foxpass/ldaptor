@@ -229,7 +229,9 @@ class LDAPServerTest(unittest.TestCase):
 
     def test_compare_outOfTree(self):
         dn = 'dc=invalid'
-        ava = pureldap.LDAPAttributeValueAssertion('objectClass', 'groupOfUniqueNames')
+        attribute_desc = pureldap.LDAPString('objectClass')
+        attribute_value = pureldap.LDAPString('groupOfUniqueNames')
+        ava = pureldap.LDAPAttributeValueAssertion(attribute_desc, attribute_value)
 
         self.server.dataReceived(
             str(
@@ -247,7 +249,9 @@ class LDAPServerTest(unittest.TestCase):
 
     def test_compare_inGroup(self):
         dn = 'cn=unix,ou=Groups,dc=example,dc=com'
-        ava = pureldap.LDAPAttributeValueAssertion('uniquemember', 'uid=kthompson,ou=People,dc=example,dc=com')
+        attribute_desc = pureldap.LDAPString('uniquemember')
+        attribute_value = pureldap.LDAPString('uid=kthompson,ou=People,dc=example,dc=com')
+        ava = pureldap.LDAPAttributeValueAssertion(attribute_desc, attribute_value)
 
         self.server.dataReceived(
             str(
@@ -265,7 +269,9 @@ class LDAPServerTest(unittest.TestCase):
 
     def test_compare_notInGroup(self):
         dn = 'cn=unix,ou=Groups,dc=example,dc=com'
-        ava = pureldap.LDAPAttributeValueAssertion('uniquemember', 'uid=bgates,ou=People,dc=example,dc=com')
+        attribute_desc = pureldap.LDAPString('uniquemember')
+        attribute_value = pureldap.LDAPString('uid=bgates,ou=People,dc=example,dc=com')
+        ava = pureldap.LDAPAttributeValueAssertion(attribute_desc, attribute_value)
 
         self.server.dataReceived(
             str(

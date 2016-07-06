@@ -353,8 +353,8 @@ class LDAPAttributeValueAssertion(BERSequence):
         self.assertionValue=assertionValue
 
     def __str__(self):
-        return str(BERSequence([LDAPString(self.attributeDesc),
-                                LDAPString(self.assertionValue)],
+        return str(BERSequence([self.attributeDesc,
+                                self.assertionValue],
                                 tag=self.tag))
 
     def __repr__(self):
