@@ -596,7 +596,7 @@ class LDAPFilter_substrings_final(LDAPString):
     tag = CLASS_CONTEXT | 0x02
 
     def asText(self):
-        return self.escaper(self.value)
+        return self.escaper(self.value.decode())
 
 
 class LDAPBERDecoderContext_Filter_substrings(BERDecoderContext):
@@ -706,7 +706,7 @@ class LDAPFilter_present(LDAPAttributeDescription):
     tag = CLASS_CONTEXT | 0x07
 
     def asText(self):
-        return "(%s=*)" % self.value
+        return "(" + self.value.decode() + "=*)"
 
 
 class LDAPFilter_approxMatch(LDAPAttributeValueAssertion):
