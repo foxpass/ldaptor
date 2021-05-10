@@ -854,15 +854,13 @@ class LDAPFilter_extensibleMatch(LDAPMatchingRuleAssertion):
     tag = CLASS_CONTEXT | 0x09
 
     def asText(self):
-        return (
-            "("
-            + (self.type.value if self.type else "")
-            + (":dn" if self.dnAttributes and self.dnAttributes.value else "")
-            + ((":" + self.matchingRule.value) if self.matchingRule else "")
-            + ":="
-            + self.escaper(self.matchValue.value)
-            + ")"
-        )
+        return '(' + \
+               (self.type.value.decode() if self.type else '') + \
+               (':dn' if self.dnAttributes and self.dnAttributes.value else '') + \
+               ((':' + self.matchingRule.value.decode()) if self.matchingRule else '') + \
+               ':=' + \
+               self.escaper(self.matchValue.value.decode()) + \
+               ')'
 
 
 class LDAPBERDecoderContext_Filter(BERDecoderContext):
