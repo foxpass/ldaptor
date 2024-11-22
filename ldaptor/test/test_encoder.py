@@ -66,18 +66,18 @@ class EncoderTests(unittest.TestCase):
             given value
         """
         tests = {
-            b"42": ["42", b"42"],
-            "42": [b"42", "42"],
-            "test": [b"test", "test"],
-            b"test": [b"test", "test"],
-            b"C\x88c\xac\x99\xffIE\xabw|\xf0\xb1<\xced": [b"C\x88c\xac\x99\xffIE\xabw|\xf0\xb1<\xced"]
+            b"42": (b"42", "42"),
+            "42": ("42", b"42"),
+            "test": ("test", b"test"),
+            b"test": (b"test", "test"),
+            b"C\x88c\xac\x99\xffIE\xabw|\xf0\xb1<\xced": (b"C\x88c\xac\x99\xffIE\xabw|\xf0\xb1<\xced",),
+            b"\xff": (b"\xff",),
+            b"\x8f": (b"\x8f",),
+            b"\x7f": (b"\x7f", "\x7f"), # b"\x7f" is a valid utf-8 byte
         }
         for test, answer in tests.items():
-            count_answers = 0
-            for result in ldaptor._encoder.get_strings(test):
-                if result in answer:
-                    count_answers += 1
-            self.assertEqual(count_answers, len(answer))
+            result = ldaptor._encoder.get_strings(test)
+            self.assertEqual(result, answer)
 
 class WireStrAliasTests(unittest.TestCase):
     def test_toWire_not_implemented(self):
