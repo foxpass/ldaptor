@@ -40,11 +40,14 @@ def get_strings(value):
     (byte string and unicode string) for
     given value
     """
-    # if we are unable to encode/decode use a replacement value.
-    if isinstance(value, str):
-        return value, value.encode("utf-8", 'replace')
-    if isinstance(value, bytes):
-        return value, value.decode("utf-8", 'replace')
+    try:
+        if isinstance(value, str):
+            return value, value.encode("utf-8")
+        if isinstance(value, bytes):
+            return value, value.decode("utf-8")
+    except (UnicodeDecodeError, UnicodeEncodeError):
+        pass
+
     return (value,)
 
 
