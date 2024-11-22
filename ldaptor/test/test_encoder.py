@@ -59,6 +59,25 @@ class EncoderTests(unittest.TestCase):
         obj = 42
         self.assertEqual(ldaptor._encoder.to_bytes(obj), b"42")
 
+    def test_get_strings(self):
+        """
+            Get tuple of available string values
+            (byte string and unicode string) for
+            given value
+        """
+        tests = {
+            b"42": (b"42", "42"),
+            "42": ("42", b"42"),
+            "test": ("test", b"test"),
+            b"test": (b"test", "test"),
+            b"C\x88c\xac\x99\xffIE\xabw|\xf0\xb1<\xced": (b"C\x88c\xac\x99\xffIE\xabw|\xf0\xb1<\xced",),
+            b"\xff": (b"\xff",),
+            b"\x8f": (b"\x8f",),
+            b"\x7f": (b"\x7f", "\x7f"), # b"\x7f" is a valid utf-8 byte
+        }
+        for test, answer in tests.items():
+            result = ldaptor._encoder.get_strings(test)
+            self.assertEqual(result, answer)
 
 class WireStrAliasTests(unittest.TestCase):
     def test_toWire_not_implemented(self):
